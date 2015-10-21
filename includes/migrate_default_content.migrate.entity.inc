@@ -16,6 +16,11 @@ class defaultEntity extends defaultBaseMigration {
     $this->source = $this->getMigrationSource();
     $this->destination = new MigrateDestinationEntityAPI($this->migrationData['entity_type'], $this->migrationData['bundle'], array('text_format' => 'filtered_html'));
 
+    $destination_schema = $this->destination->getKeySchema($this->migrationData['entity_type'], $this->migrationData['bundle']);
+    // Remove revision from posible referenced entities.
+    if (array_key_exists('vid', $destination_schema)) {
+      unset($destination_schema['vid']);
+    }
     // Create a map object for tracking the relationships between source rows.
     $this->map = new MigrateSQLMap($this->machineName,
       array(
@@ -25,8 +30,7 @@ class defaultEntity extends defaultBaseMigration {
           'not null' => TRUE,
         ),
       ),
-      $this->destination->getKeySchema($this->migrationData['entity_type'], $this->migrationData['bundle']));
-
+     $destination_schema);
   }
 
   /**
