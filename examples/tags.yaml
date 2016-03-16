@@ -1,0 +1,12 @@
+name: tags
+description: "Default terms for tags vocabulary"
+class: defaultEntity
+entity_type: taxonomy_term
+bundle: tags
+data_origin: csv
+data_file: tags.csv
+fields:
+  - name:
+      source: Name
+  - description:
+      source: Description
